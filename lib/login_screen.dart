@@ -22,7 +22,11 @@ class _login_screenState extends State<login_screen> {
             builder: (context) => Home_screen(),
           ));
     } else
-      print("please chech your pass or phoneNum");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Your phone number or pass is incorrect"),
+        ),
+      );
   }
 
   @override
@@ -30,13 +34,19 @@ class _login_screenState extends State<login_screen> {
     return Scaffold(
         body: SafeArea(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Image.asset("assets\images\login_logo.png"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: phoneNumberController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
+                  icon: Icon(
+                    Icons.phone,
+                    size: 30,
+                  ),
                   hintText: "please write your phone number",
                   label: Text("phone number")),
             ),
@@ -44,9 +54,14 @@ class _login_screenState extends State<login_screen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              obscureText: true,
               controller: passwordController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
+                  icon: Icon(
+                    Icons.lock,
+                    size: 30,
+                  ),
                   hintText: "please write your Password",
                   label: Text("Password")),
             ),
