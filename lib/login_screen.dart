@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+import 'homeScreen.dart';
 
 class login_screen extends StatefulWidget {
   const login_screen({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class _login_screenState extends State<login_screen> {
                   login();
                 },
                 child: Text("login"),
-              ),
+              )
             ],
           )
         ],
