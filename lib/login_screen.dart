@@ -19,7 +19,7 @@ class _login_screenState extends State<login_screen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Home_screen(),
+            builder: (_) => Home_screen(),
           ));
     } else
       ScaffoldMessenger.of(context).showSnackBar(
@@ -33,50 +33,55 @@ class _login_screenState extends State<login_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset("assets\images\login_logo.png"),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: phoneNumberController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  icon: Icon(
-                    Icons.phone,
-                    size: 30,
-                  ),
-                  hintText: "please write your phone number",
-                  label: Text("phone number")),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              obscureText: true,
-              controller: passwordController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  icon: Icon(
-                    Icons.lock,
-                    size: 30,
-                  ),
-                  hintText: "please write your Password",
-                  label: Text("Password")),
+            Image.asset("assets/images/login_logo.png"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: phoneNumberController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    icon: Icon(
+                      Icons.phone,
+                      size: 30,
+                    ),
+                    hintText: "please write your phone number",
+                    label: Text("phone number")),
+              ),
             ),
-          ),
-          Column(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  login();
-                },
-                child: Text("login"),
-              )
-            ],
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    icon: Icon(
+                      Icons.lock,
+                      size: 30,
+                    ),
+                    hintText: "please write your Password",
+                    label: Text("Password")),
+              ),
+            ),
+            Column(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    login();
+                  },
+                  child: Text("login"),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     ));
   }
