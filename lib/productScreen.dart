@@ -60,61 +60,56 @@ class _product_screenState extends State<product_screen> {
         ),
       ),
       body: SafeArea(
-        child: ListView(
-          children: [
-            if (isloading)
-              Row(
-                children: [
-                  CircularProgressIndicator(),
-                ],
-              ),
-            for (var item in product)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  child: Column(
-                    children: [
-                      Image.network(
-                        item["image"],
-                        height: 250,
+        child: ListView.builder(
+          itemCount: product.length,
+          itemBuilder: ((context, index) {
+            final item = product[index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Column(
+                  children: [
+                    Image.network(
+                      item["image"],
+                      height: 250,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      item["price"].toString() + " \$",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.red[400],
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      item["title"],
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(
-                        height: 15,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => cart_screen()),
+                        );
+                      },
+                      child: Text(
+                        "Add to cart",
+                        style: TextStyle(fontSize: 18),
                       ),
-                      Text(
-                        item["price"].toString() + " \$",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.red[400],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        item["title"],
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => cart_screen()),
-                          );
-                        },
-                        child: Text(
-                          "Add to cart",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-          ],
+            );
+          }),
         ),
       ),
     );
