@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'cart_screen.dart';
+
 class product_screen extends StatefulWidget {
   const product_screen({Key? key}) : super(key: key);
 
@@ -38,9 +40,22 @@ class _product_screenState extends State<product_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.edit),
+      ),
+      // ignore: prefer_const_literals_to_create_immutables
+      bottomNavigationBar: BottomNavigationBar(
+        // ignore: prefer_const_literals_to_create_immutables
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag_rounded), label: "Cart"),
+        ],
+      ),
       appBar: AppBar(
         title: Text(
-          "product",
+          "Products",
           style: TextStyle(fontSize: 25),
         ),
       ),
@@ -84,9 +99,14 @@ class _product_screenState extends State<product_screen> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => cart_screen()),
+                          );
+                        },
                         child: Text(
-                          "More",
+                          "Add to cart",
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
