@@ -13,8 +13,21 @@ class _Home_screenState extends State<Home_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Icon(Icons.add_home_work_rounded),
+            Text("  Home Screen"),
+          ],
+        ),
+      ),
       body: SafeArea(
-        child: Text("Home Screen"),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            " Enter your order to show the products.",
+          ),
+        ),
       ),
     );
   }
