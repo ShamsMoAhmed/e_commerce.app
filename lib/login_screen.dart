@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'homeScreen.dart';
+import 'productScreen.dart';
 
 class login_screen extends StatefulWidget {
   const login_screen({Key? key}) : super(key: key);
@@ -16,10 +16,10 @@ class _login_screenState extends State<login_screen> {
     var phone = phoneNumberController.text;
     var pass = passwordController.text;
     if (phone == "123456" && pass == "12300") {
-      Navigator.pushReplacement(
+      Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => Home_screen(),
+            builder: (_) => product_screen(),
           ));
     } else
       ScaffoldMessenger.of(context).showSnackBar(
@@ -40,10 +40,13 @@ class _login_screenState extends State<login_screen> {
             SizedBox(
               height: 30,
             ),
-            Image.asset("assets/images/login_logo.png"),
+            Image.asset(
+              "assets/images/login_logo.png",
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                keyboardType: TextInputType.phone,
                 controller: phoneNumberController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -77,7 +80,11 @@ class _login_screenState extends State<login_screen> {
                     login();
                   },
                   child: Text("login"),
-                )
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text("Create an account"),
+                ),
               ],
             )
           ],
