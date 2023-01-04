@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'homeScreen.dart';
+import 'productScreen.dart';
 
 class login_screen extends StatefulWidget {
   const login_screen({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _login_screenState extends State<login_screen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => Home_screen(),
+            builder: (_) =>product_screen(),
           ));
     } else
       ScaffoldMessenger.of(context).showSnackBar(
@@ -44,6 +44,7 @@ class _login_screenState extends State<login_screen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                keyboardType: TextInputType.phone,
                 controller: phoneNumberController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
