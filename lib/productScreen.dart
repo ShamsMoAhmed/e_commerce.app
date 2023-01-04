@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:e_commerce_app/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,17 +17,24 @@ class product_screen extends StatefulWidget {
 
 class _product_screenState extends State<product_screen> {
   bool isloading = true;
-  List product = [];
+  List<Product> product = [];
 
   getProduct() async {
     //to make request to get this data:
     var url = Uri.parse("https://fakestoreapi.com/products");
     var res = await http.get(url);
     var data = jsonDecode(res.body);
-
+    for (var item in data) {
+      // ignore: curly_braces_in_flow_control_structures
+      var PR = Product(
+          imageUrl: item["image"],
+          price: item["price"],
+          productTitle: item["title"]);
+      product.add(PR);
+    }
     setState(() {
       isloading = false;
-      product = data;
+      product;
     });
   }
 
@@ -70,14 +78,14 @@ class _product_screenState extends State<product_screen> {
                 child: Column(
                   children: [
                     Image.network(
-                      item["image"],
+                      item.imageUrl,
                       height: 250,
                     ),
                     SizedBox(
                       height: 15,
                     ),
                     Text(
-                      item["price"].toString() + " \$",
+                      item.price.toString() + " \$",
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.red[400],
@@ -87,7 +95,7 @@ class _product_screenState extends State<product_screen> {
                       height: 15,
                     ),
                     Text(
-                      item["title"],
+                      item.productTitle,
                       style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,

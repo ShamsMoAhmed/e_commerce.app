@@ -17,7 +17,7 @@ class _cart_screenState extends State<cart_screen> {
         title: Text("Cart"),
       ),
       body: SafeArea(
-        child: Text("product added"),
+        child: Text("product added , Thank you for visiting"),
       ),
     );
   }
