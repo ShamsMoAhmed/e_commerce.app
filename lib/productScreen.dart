@@ -6,8 +6,6 @@ import 'package:e_commerce_app/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'cart_screen.dart';
-
 class product_screen extends StatefulWidget {
   const product_screen({Key? key}) : super(key: key);
 
@@ -17,25 +15,39 @@ class product_screen extends StatefulWidget {
 
 class _product_screenState extends State<product_screen> {
   bool isloading = true;
+
   List<Product> product = [];
 
   getProduct() async {
     //to make request to get this data:
     var url = Uri.parse("https://fakestoreapi.com/products");
-    var res = await http.get(url);
-    var data = jsonDecode(res.body);
-    for (var item in data) {
-      // ignore: curly_braces_in_flow_control_structures
-      var PR = Product(
-          imageUrl: item["image"],
-          price: item["price"],
-          productTitle: item["title"]);
-      product.add(PR);
+
+    // to avoid app stops when it request the data from server , using : try{ code}& catch(e){another code must be done if the code in try block is incorrect}
+    try {
+      var res = await http.get(url);
+      var data = jsonDecode(res.body);
+      for (var item in data) {
+        // ignore: curly_braces_in_flow_control_structures
+        var PR = Product(
+            imageUrl: item["image"],
+            price: item["price"],
+            productTitle: item["title"]);
+        product.add(PR);
+      }
+      setState(() {
+        isloading = false;
+        product;
+      });
+    } catch (e) {
+      setState(() {
+        isloading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("This page can not load"),
+        ),
+      );
     }
-    setState(() {
-      isloading = false;
-      product;
-    });
   }
 
   @override
@@ -77,6 +89,7 @@ class _product_screenState extends State<product_screen> {
               child: Card(
                 child: Column(
                   children: [
+                    
                     Image.network(
                       item.imageUrl,
                       height: 250,
@@ -102,14 +115,9 @@ class _product_screenState extends State<product_screen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => cart_screen()),
-                        );
-                      },
+                      onPressed: () {},
                       child: Text(
-                        "Add to cart",
+                        "More info",
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
