@@ -6,6 +6,8 @@ import 'package:e_commerce_app/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'product_details.dart';
+
 class product_screen extends StatefulWidget {
   const product_screen({Key? key}) : super(key: key);
 
@@ -14,7 +16,7 @@ class product_screen extends StatefulWidget {
 }
 
 class _product_screenState extends State<product_screen> {
-  bool isloading = true;
+  bool isLoading = true;
 
   List<Product> product = [];
 
@@ -22,25 +24,28 @@ class _product_screenState extends State<product_screen> {
     //to make request to get this data:
     var url = Uri.parse("https://fakestoreapi.com/products");
 
-    // to avoid app stops when it request the data from server , using : try{ code}& catch(e){another code must be done if the code in try block is incorrect}
+    // to avoid app stops when it requests the data from server , using : try{ code}& catch(e){another code must be done if the code in try block is incorrect}
     try {
       var res = await http.get(url);
       var data = jsonDecode(res.body);
       for (var item in data) {
         // ignore: curly_braces_in_flow_control_structures
         var PR = Product(
-            imageUrl: item["image"],
-            price: item["price"],
-            productTitle: item["title"]);
+          Id: item["id"],
+          imageUrl: item["image"],
+          price: item["price"],
+          productTitle: item["title"],
+          description: item["description"],
+        );
         product.add(PR);
       }
       setState(() {
-        isloading = false;
+        isLoading = false;
         product;
       });
     } catch (e) {
       setState(() {
-        isloading = false;
+        isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -89,7 +94,12 @@ class _product_screenState extends State<product_screen> {
               child: Card(
                 child: Column(
                   children: [
-                    
+                    if (isLoading == true)
+                      Row(
+                        children: [
+                          CircularProgressIndicator(),
+                        ],
+                      ),
                     Image.network(
                       item.imageUrl,
                       height: 250,
@@ -100,7 +110,7 @@ class _product_screenState extends State<product_screen> {
                     Text(
                       item.price.toString() + " \$",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 25,
                           color: Colors.red[400],
                           fontWeight: FontWeight.bold),
                     ),
@@ -115,7 +125,16 @@ class _product_screenState extends State<product_screen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => product_details(
+                              productId: item.Id,
+                            ),
+                          ),
+                        );
+                      },
                       child: Text(
                         "More info",
                         style: TextStyle(fontSize: 18),
