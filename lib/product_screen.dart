@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
-import 'dart:convert';
-
 import 'package:e_commerce_app/models/product_model.dart';
+import 'package:e_commerce_app/services/product_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'product_details.dart';
 
@@ -19,39 +17,23 @@ class _product_screenState extends State<product_screen> {
   bool isLoading = true;
 
   List<Product> product = [];
+  final productService = ProductServices();
 
-  getProduct() async {
-    //to make request to get this data:
-    var url = Uri.parse("https://fakestoreapi.com/products");
-
-    // to avoid app stops when it requests the data from server , using : try{ code}& catch(e){another code must be done if the code in try block is incorrect}
+  get_Product() async {
     try {
-      var res = await http.get(url);
-      var data = jsonDecode(res.body);
-      for (var item in data) {
-        // ignore: curly_braces_in_flow_control_structures
-        var PR = Product(
-          Id: item["id"],
-          imageUrl: item["image"],
-          price: item["price"],
-          productTitle: item["title"],
-          description: item["description"],
-        );
-        product.add(PR);
-      }
+      var _prod = await productService.getProducts();
+
       setState(() {
         isLoading = false;
-        product;
+        product = _prod;
       });
-    } catch (e) {
+    } catch (error) {
       setState(() {
         isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("This page can not load"),
-        ),
-      );
+        ));
+      });
     }
   }
 
@@ -59,7 +41,7 @@ class _product_screenState extends State<product_screen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProduct();
+    get_Product();
   }
 
   @override
@@ -96,13 +78,14 @@ class _product_screenState extends State<product_screen> {
                   children: [
                     if (isLoading == true)
                       Row(
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           CircularProgressIndicator(),
                         ],
                       ),
                     Image.network(
                       item.imageUrl,
-                      height: 250,
+                      height: 200,
                     ),
                     SizedBox(
                       height: 15,

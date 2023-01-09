@@ -6,7 +6,7 @@ import 'login_screen.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: login_screen(),
+      home: loginScreen(),
     ),
   );
 }

@@ -1,8 +1,8 @@
-import 'dart:convert';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:e_commerce_app/models/product_model.dart';
+import 'package:e_commerce_app/services/product_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class product_details extends StatefulWidget {
   final int productId;
@@ -15,23 +15,14 @@ class product_details extends StatefulWidget {
 class _product_detailsState extends State<product_details> {
   bool isLoading = true;
   Product? details;
+  final productServices = ProductServices();
   getDetails() async {
-    var url =
-        Uri.parse("https://fakestoreapi.com/products/${widget.productId}");
     try {
-      var res = await http.get(url);
-      var data = jsonDecode(res.body);
-      details = Product(
-        imageUrl: data["image"],
-        price: data["price"],
-        productTitle: data["title"],
-        Id: data["id"],
-        description: data["description"],
-      );
+      var _prods = await productServices.getProductById(widget.productId);
 
       setState(() {
         isLoading = false;
-        details;
+        details = _prods;
       });
     } catch (error) {
       setState(() {
@@ -73,7 +64,7 @@ class _product_detailsState extends State<product_details> {
                   children: [
                     Image.network(
                       details!.imageUrl,
-                      height: 250,
+                      height: 200,
                     ),
                     SizedBox(
                       height: 15,

@@ -1,15 +1,17 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
-import 'productScreen.dart';
+import 'product_screen.dart';
 
-class login_screen extends StatefulWidget {
-  const login_screen({Key? key}) : super(key: key);
+class loginScreen extends StatefulWidget {
+  const loginScreen({Key? key}) : super(key: key);
 
   @override
-  State<login_screen> createState() => _login_screenState();
+  State<loginScreen> createState() => _loginScreenState();
 }
 
-class _login_screenState extends State<login_screen> {
+class _loginScreenState extends State<loginScreen> {
   var phoneNumberController = TextEditingController();
   var passwordController = TextEditingController();
   login() {
@@ -22,6 +24,7 @@ class _login_screenState extends State<login_screen> {
             builder: (_) => product_screen(),
           ));
     } else
+      // ignore: curly_braces_in_flow_control_structures
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Your phone number or pass is incorrect"),
