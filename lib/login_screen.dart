@@ -21,7 +21,7 @@ class _loginScreenState extends State<loginScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => product_screen(),
+            builder: (_) => ProductScreen(),
           ));
     } else
       // ignore: curly_braces_in_flow_control_structures

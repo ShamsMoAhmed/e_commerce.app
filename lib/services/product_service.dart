@@ -6,7 +6,7 @@ import '../models/product_model.dart';
 
 class ProductServices {
   Future<List<Product>> getProducts() async {
-    List<Product> product = [];
+    List<Product> products = [];
 
     //to make request to get this data:
     var url = Uri.parse("https://dummyjson.com/products");
@@ -26,10 +26,10 @@ class ProductServices {
         productTitle: item["title"],
         description: item["description"],
       );
-      product.add(pro);
+      products.add(pro);
       // product: the empty list that I made before .
     }
-    return product;
+    return products;
   }
 
 // this time ,future will return <"Product "> not <list  <Product>>.
@@ -47,3 +47,5 @@ class ProductServices {
     );
   }
 }
+
+

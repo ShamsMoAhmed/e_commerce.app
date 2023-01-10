@@ -1,18 +1,18 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:e_commerce_app/models/product_model.dart';
-import 'package:e_commerce_app/services/product_service.dart';
+
 import 'package:flutter/material.dart';
 
-class product_details extends StatefulWidget {
-  final int productId;
-  const product_details({Key? key, required this.productId}) : super(key: key);
+import 'models/product_model.dart';
+import 'services/product_service.dart';
 
+class ProductDetails extends StatefulWidget {
+final int productId;
+  const ProductDetails({Key? key, required this.productId}) : super(key: key);
   @override
-  State<product_details> createState() => _product_detailsState();
+  State<ProductDetails> createState() => _ProductDetailsState();
 }
 
-class _product_detailsState extends State<product_details> {
+class _ProductDetailsState extends State<ProductDetails> {
   bool isLoading = true;
   Product? details;
   final productServices = ProductServices();

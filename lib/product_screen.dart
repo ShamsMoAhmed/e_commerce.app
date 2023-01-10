@@ -1,22 +1,20 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable
-
-import 'package:e_commerce_app/models/product_model.dart';
-import 'package:e_commerce_app/services/product_service.dart';
 import 'package:flutter/material.dart';
 
+import 'models/product_model.dart';
 import 'product_details.dart';
+import 'services/product_service.dart';
 
-class product_screen extends StatefulWidget {
-  const product_screen({Key? key}) : super(key: key);
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({Key? key}) : super(key: key);
 
   @override
-  State<product_screen> createState() => _product_screenState();
+  State<ProductScreen> createState() => _ProductScreenState();
 }
 
-class _product_screenState extends State<product_screen> {
+class _ProductScreenState extends State<ProductScreen> {
   bool isLoading = true;
 
-  List<Product> product = [];
+  List<Product> products = [];
   final productService = ProductServices();
 
   get_Product() async {
@@ -25,7 +23,7 @@ class _product_screenState extends State<product_screen> {
 
       setState(() {
         isLoading = false;
-        product = _prod;
+        products = _prod;
       });
     } catch (error) {
       setState(() {
@@ -68,9 +66,9 @@ class _product_screenState extends State<product_screen> {
       ),
       body: SafeArea(
         child: ListView.builder(
-          itemCount: product.length,
+          itemCount: products.length,
           itemBuilder: ((context, index) {
-            final item = product[index];
+            final item = products[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
@@ -112,7 +110,7 @@ class _product_screenState extends State<product_screen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => product_details(
+                            builder: (_) => ProductDetails(
                               productId: item.Id,
                             ),
                           ),
