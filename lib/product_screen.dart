@@ -1,57 +1,37 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable
-
-import 'dart:convert';
-
-import 'package:e_commerce_app/models/product_model.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
+import 'models/product_model.dart';
 import 'product_details.dart';
+import 'services/product_service.dart';
 
-class product_screen extends StatefulWidget {
-  const product_screen({Key? key}) : super(key: key);
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({Key? key}) : super(key: key);
 
   @override
-  State<product_screen> createState() => _product_screenState();
+  State<ProductScreen> createState() => _ProductScreenState();
 }
 
-class _product_screenState extends State<product_screen> {
+class _ProductScreenState extends State<ProductScreen> {
   bool isLoading = true;
 
-  List<Product> product = [];
+  List<Product> products = [];
+  final productService = ProductServices();
 
-  getProduct() async {
-    //to make request to get this data:
-    var url = Uri.parse("https://fakestoreapi.com/products");
-
-    // to avoid app stops when it requests the data from server , using : try{ code}& catch(e){another code must be done if the code in try block is incorrect}
+  get_Product() async {
     try {
-      var res = await http.get(url);
-      var data = jsonDecode(res.body);
-      for (var item in data) {
-        // ignore: curly_braces_in_flow_control_structures
-        var PR = Product(
-          Id: item["id"],
-          imageUrl: item["image"],
-          price: item["price"],
-          productTitle: item["title"],
-          description: item["description"],
-        );
-        product.add(PR);
-      }
+      var _prod = await productService.getProducts();
+
       setState(() {
         isLoading = false;
-        product;
+        products = _prod;
       });
-    } catch (e) {
+    } catch (error) {
       setState(() {
         isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("This page can not load"),
-        ),
-      );
+        ));
+      });
     }
   }
 
@@ -59,7 +39,7 @@ class _product_screenState extends State<product_screen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProduct();
+    get_Product();
   }
 
   @override
@@ -86,9 +66,9 @@ class _product_screenState extends State<product_screen> {
       ),
       body: SafeArea(
         child: ListView.builder(
-          itemCount: product.length,
+          itemCount: products.length,
           itemBuilder: ((context, index) {
-            final item = product[index];
+            final item = products[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
@@ -96,13 +76,14 @@ class _product_screenState extends State<product_screen> {
                   children: [
                     if (isLoading == true)
                       Row(
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           CircularProgressIndicator(),
                         ],
                       ),
                     Image.network(
                       item.imageUrl,
-                      height: 250,
+                      height: 200,
                     ),
                     SizedBox(
                       height: 15,
@@ -129,7 +110,7 @@ class _product_screenState extends State<product_screen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => product_details(
+                            builder: (_) => ProductDetails(
                               productId: item.Id,
                             ),
                           ),
