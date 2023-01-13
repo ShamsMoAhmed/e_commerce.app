@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/product_model.dart';
@@ -46,6 +47,25 @@ class ProductServices {
       description: data["description"],
     );
   }
+
+  var titleController = TextEditingController();
+  var priceController = TextEditingController();
+  var descController = TextEditingController();
+  addProduct() async {
+    var url = Uri.parse("https://dummyjson.com/products");
+    var data = {
+      "title": titleController.text,
+      "price": priceController.text,
+      "description": descController.text,
+      "category": "electronic",
+      "image":
+          " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuJjyo2eGSU4n_wuaLhHWjM5CUjw9ZUvhA9DgaqxnO&s",
+    };
+    var encodedData = jsonEncode(data);
+    var response = await http.post(url, body: encodedData);
+    print(response.statusCode);
+    //if (response.statusCode >= 200 && response.statusCode < 300) {
+
+    //}
+  }
 }
-
-

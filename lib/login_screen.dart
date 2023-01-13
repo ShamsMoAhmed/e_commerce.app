@@ -81,10 +81,15 @@ class _loginScreenState extends State<loginScreen> {
                 ElevatedButton(
                   onPressed: () {
                     login();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("hello"),
+                      ),
+                    );
                   },
                   child: Text("login"),
                 ),
-                ElevatedButton(
+                OutlinedButton(
                   onPressed: () {},
                   child: Text("Create an account"),
                 ),

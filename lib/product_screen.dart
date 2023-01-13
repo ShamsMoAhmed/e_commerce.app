@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/create_new_product_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'models/product_model.dart';
@@ -46,7 +47,14 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CreateProductScreen(),
+            ),
+          );
+        },
         child: Icon(Icons.edit),
       ),
       // ignore: prefer_const_literals_to_create_immutables
@@ -65,67 +73,79 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: products.length,
-          itemBuilder: ((context, index) {
-            final item = products[index];
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Column(
-                  children: [
-                    if (isLoading == true)
-                      Row(
-                        // ignore: prefer_const_literals_to_create_immutables
+        child: Column(
+          children: [
+            if (isLoading)
+              Row(
+                children: [
+                  CircularProgressIndicator(),
+                ],
+              ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: products.length,
+                itemBuilder: ((context, index) {
+                  final item = products[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Column(
                         children: [
-                          CircularProgressIndicator(),
-                        ],
-                      ),
-                    Image.network(
-                      item.imageUrl,
-                      height: 200,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      item.price.toString() + " \$",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.red[400],
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      item.productTitle,
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ProductDetails(
-                              productId: item.Id,
+                          if (isLoading == true)
+                            Row(
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                CircularProgressIndicator(),
+                              ],
+                            ),
+                          Image.network(
+                            item.imageUrl,
+                            height: 200,
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            item.price.toString() + " \$",
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.red[400],
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            item.productTitle,
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        );
-                      },
-                      child: Text(
-                        "More info",
-                        style: TextStyle(fontSize: 18),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ProductDetails(
+                                    productId: item.Id,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "More info",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                }),
               ),
-            );
-          }),
+            ),
+          ],
         ),
       ),
     );
