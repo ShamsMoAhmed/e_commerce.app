@@ -33,6 +33,14 @@ class _loginScreenState extends State<loginScreen> {
   }
 
   @override
+  void dispose() {
+    phoneNumberController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(

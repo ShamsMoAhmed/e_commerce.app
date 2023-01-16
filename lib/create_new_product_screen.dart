@@ -29,11 +29,53 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
     var isValid = formKey.currentState!.validate();
     if (isValid == false) return;
 
-    var add = await productService.addProduct();
+    var prod = AddProduct(
+        title: titleController.text,
+        price: num.parse(priceController.text),
+        desc: descController.text,
+        stock: 300,
+        brand: "Apple");
+
+    try {
+      var isAdded = await productService.addProduct(prod);
+      if (isAdded) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Product is added"),
+          ),
+        );
+        titleController.clear();
+        priceController.clear();
+        descController.clear();
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error"),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Product can't be added"),
+        ),
+      );
+    }
 
     setState(() {
       isLoading = false;
     });
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    priceController.dispose();
+    descController.dispose();
+    super.dispose();
   }
 
   @override
