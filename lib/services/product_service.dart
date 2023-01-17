@@ -20,7 +20,7 @@ class ProductServices {
       // ignore: curly_braces_in_flow_control_structures
       var pro = Product(
         // mapping inside list : key: ["value"] .
-        Id: item["id"],
+        id: item["id"],
         imageUrl: item["thumbnail"],
         price: item["price"],
         productTitle: item["title"],
@@ -42,10 +42,27 @@ class ProductServices {
       imageUrl: data["thumbnail"],
       price: data["price"],
       productTitle: data["title"],
-      Id: data["id"],
+      id: data["id"],
       description: data["description"],
     );
   }
+
+  Future<bool> addProduct(AddProduct newProduct) async {
+    var url = Uri.parse("https://dummyjson.com/products/add");
+    var data = {
+      "title": newProduct.title,
+      "price": newProduct.price,
+      "description": newProduct.desc,
+      "category": "smartphones",
+      "stock": newProduct.stock,
+      "brand": newProduct.brand,
+      "thumbnail":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuJjyo2eGSU4n_wuaLhHWjM5CUjw9ZUvhA9DgaqxnO&s",
+    };
+
+    var encodedData = jsonEncode(data);
+    var response = await http.post(url, body: encodedData);
+    print(response.statusCode);
+    return response.statusCode== 200;
+  }
 }
-
-

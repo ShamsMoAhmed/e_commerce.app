@@ -33,6 +33,14 @@ class _loginScreenState extends State<loginScreen> {
   }
 
   @override
+  void dispose() {
+    phoneNumberController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
@@ -81,10 +89,15 @@ class _loginScreenState extends State<loginScreen> {
                 ElevatedButton(
                   onPressed: () {
                     login();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("hello"),
+                      ),
+                    );
                   },
                   child: Text("login"),
                 ),
-                ElevatedButton(
+                OutlinedButton(
                   onPressed: () {},
                   child: Text("Create an account"),
                 ),
