@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:e_commerce_app/cart_screen.dart';
 import 'package:e_commerce_app/create_new_product_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +20,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   List<Product> products = [];
   final productService = ProductServices();
+  int tabIndex = 0;
 
   get_Product() async {
     try {
@@ -59,8 +63,23 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
       // ignore: prefer_const_literals_to_create_immutables
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: tabIndex,
+        onTap: (index) {
+          setState(() {
+            tabIndex = index;
+          });
+          if (tabIndex == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CartScreen(),
+              ),
+            );
+          }
+        },
         // ignore: prefer_const_literals_to_create_immutables
         items: [
+          // ignore: prefer_const_constructors
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_bag_rounded), label: "Cart"),
