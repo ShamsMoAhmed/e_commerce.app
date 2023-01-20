@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:e_commerce_app/models/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +98,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        cart.addItem(details!);
+                        if (cart.isProductExist(details!) == true) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("This product is already exist"),
+                            ),
+                          );
+                        } else {
+                          cart.addItem(details!);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Product is added"),
+                            ),
+                          );
+                        }
                       },
                       child: Text(
                         "Add to cart",

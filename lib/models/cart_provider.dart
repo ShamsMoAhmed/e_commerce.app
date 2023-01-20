@@ -13,4 +13,19 @@ class CartProvider extends ChangeNotifier {
     products.remove(prod);
     notifyListeners();
   }
+
+  clearItems() {
+    products = [];
+    notifyListeners();
+  }
+
+  bool isProductExist(Product prod) {
+    bool exist = false;
+    for (var item in products) {
+      if (prod.id == item.id) {
+        exist = true;
+      }
+    }
+    return exist;
+  }
 }

@@ -23,6 +23,11 @@ class _ProductScreenState extends State<ProductScreen> {
   int tabIndex = 0;
 
   get_Product() async {
+    if (products.isNotEmpty) {
+      setState(() {
+        products = [];
+      });
+    }
     try {
       var _prod = await productService.getProducts();
 
@@ -101,67 +106,75 @@ class _ProductScreenState extends State<ProductScreen> {
                 ],
               ),
             Expanded(
-              child: ListView.builder(
-                itemCount: products.length,
-                itemBuilder: ((context, index) {
-                  final item = products[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Column(
-                        children: [
-                          if (isLoading == true)
-                            Row(
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                CircularProgressIndicator(),
-                              ],
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await get_Product();
+                },
+                //child: ListView.builder(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, mainAxisExtent: 500),
+                  itemCount: products.length,
+                  itemBuilder: ((context, index) {
+                    final item = products[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        child: Column(
+                          children: [
+                            if (isLoading == true)
+                              Row(
+                                // ignore: prefer_const_literals_to_create_immutables
+                                children: [
+                                  CircularProgressIndicator(),
+                                ],
+                              ),
+                            Image.network(
+                              item.imageUrl,
+                              height: 200,
                             ),
-                          Image.network(
-                            item.imageUrl,
-                            height: 200,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            item.price.toString() + " \$",
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.red[400],
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            item.productTitle,
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
+                            SizedBox(
+                              height: 15,
                             ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ProductDetails(
-                                    productId: item.id,
+                            Text(
+                              item.price.toString() + " \$",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.red[400],
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              item.productTitle,
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ProductDetails(
+                                      productId: item.id,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "More info",
-                              style: TextStyle(fontSize: 18),
+                                );
+                              },
+                              child: Text(
+                                "More info",
+                                style: TextStyle(fontSize: 18),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ),
               ),
             ),
           ],

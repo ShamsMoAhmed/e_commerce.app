@@ -18,12 +18,45 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cart"),
+        title: const Text("Cart"),
       ),
       body: SafeArea(
-        child: ListView(
+        child: Column(
           children: [
-            for (var item in cart.products) Text(item.productTitle),
+            Expanded(
+              child: ListView(
+                children: [
+                  for (var item in cart.products)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: SizedBox(
+                            height: 80,
+                            width: 80,
+                            child: Image.network(item.imageUrl)),
+                        title: Text(item.productTitle),
+                        subtitle: Text(item.description),
+                        trailing: Text(
+                          item.price.toString() + "\$",
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                cart.clearItems();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  const Icon(Icons.delete),
+                  const Text("Clear Cart"),
+                ],
+              ),
+            ),
           ],
         ),
       ),
