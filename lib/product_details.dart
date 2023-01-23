@@ -1,12 +1,14 @@
+// ignore_for_file: prefer_const_constructors
 
-
+import 'package:e_commerce_app/models/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'models/product_model.dart';
 import 'services/product_service.dart';
 
 class ProductDetails extends StatefulWidget {
-final int productId;
+  final int productId;
   const ProductDetails({Key? key, required this.productId}) : super(key: key);
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -45,6 +47,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var cart = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Product Details")),
       body: SafeArea(
@@ -94,7 +97,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (cart.isProductExist(details!) == true) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("This product is already exist"),
+                            ),
+                          );
+                        } else {
+                          cart.addItem(details!);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Product is added"),
+                            ),
+                          );
+                        }
+                      },
                       child: Text(
                         "Add to cart",
                         style: TextStyle(fontSize: 18),
