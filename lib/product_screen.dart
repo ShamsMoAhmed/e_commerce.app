@@ -2,6 +2,7 @@
 
 import 'package:e_commerce_app/cart_screen.dart';
 import 'package:e_commerce_app/create_new_product_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'models/product_model.dart';
@@ -95,6 +96,17 @@ class _ProductScreenState extends State<ProductScreen> {
           "Products",
           style: TextStyle(fontSize: 25),
         ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: Text(
+              "Logout",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
