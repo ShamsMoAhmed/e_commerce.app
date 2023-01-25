@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "182338504236",
+    "project_id": "fireauth-c546c",
+    "storage_bucket": "fireauth-c546c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182338504236:android:4ff6b852209e5e0ab6f389",
+        "android_client_info": {
+          "package_name": "com.example.e_commerce_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182338504236-7pet2uch9hmqg7mthitlc3om57vhfdfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPEUK6XlpzsYrZJdxe9Nam2hMAsdGmfEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182338504236-7pet2uch9hmqg7mthitlc3om57vhfdfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

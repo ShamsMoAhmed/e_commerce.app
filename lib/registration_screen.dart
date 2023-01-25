@@ -1,27 +1,38 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:e_commerce_app/registration_screen.dart';
 import 'package:e_commerce_app/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'product_screen.dart';
-
-class loginScreen extends StatefulWidget {
-  const loginScreen({Key? key}) : super(key: key);
+class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({Key? key}) : super(key: key);
 
   @override
-  State<loginScreen> createState() => _loginScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _loginScreenState extends State<loginScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  void login() async {
+
+  void register() async {
     Auth auth = Auth();
     try {
-      await auth.signInWithEmailAndPassword(
+      var res = await auth.registerNewUser(
           email: emailController.text, password: passwordController.text);
+      if (res.user == null) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Your account has not created"),
+            ),
+          );
+        }
+      } else {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      }
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -30,35 +41,20 @@ class _loginScreenState extends State<loginScreen> {
           ),
         ),
       );
-    } catch (e) {
-      print(e);
     }
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
+      appBar: AppBar(
+        title: Text("Register Screen"),
+      ),
+      body: SafeArea(
+        child: Column(
           children: [
-            SizedBox(
-              height: 30,
-            ),
-            Image.asset(
-              "assets/images/login_logo.png",
-            ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: TextField(
                 controller: emailController,
                 decoration: InputDecoration(
@@ -72,7 +68,7 @@ class _loginScreenState extends State<loginScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
@@ -86,30 +82,15 @@ class _loginScreenState extends State<loginScreen> {
                     label: Text("Password")),
               ),
             ),
-            Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    login();
-                  },
-                  child: Text("Login"),
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => RegistrationScreen(),
-                      ),
-                    );
-                  },
-                  child: Text("Register"),
-                ),
-              ],
-            )
+            ElevatedButton(
+              onPressed: () {
+                register();
+              },
+              child: Text("Register"),
+            ),
           ],
         ),
       ),
-    ));
+    );
   }
 }
