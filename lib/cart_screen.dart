@@ -36,27 +36,37 @@ class _CartScreenState extends State<CartScreen> {
                             child: Image.network(item.imageUrl)),
                         title: Text(item.productTitle),
                         subtitle: Text(item.description),
-                        trailing: Text(
-                          item.price.toString() + "\$",
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(item.price.toString() + "\$"),
+                            IconButton(
+                              onPressed: () {
+                                cart.removeItem(item);
+                              },
+                              icon: Icon(Icons.delete),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                cart.clearItems();
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const Icon(Icons.delete),
-                  const Text("Clear Cart"),
-                ],
+            if (cart.products.isNotEmpty)
+              ElevatedButton(
+                onPressed: () {
+                  cart.clearItems();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const Icon(Icons.delete),
+                    const Text("Clear Cart"),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

@@ -28,4 +28,5 @@ class CartProvider extends ChangeNotifier {
     }
     return exist;
   }
+  
 }
