@@ -47,6 +47,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+   
     var cart = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Product Details")),
@@ -96,28 +97,31 @@ class _ProductDetailsState extends State<ProductDetails> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (cart.isProductExist(details!) == true) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("This product is already exist"),
-                            ),
-                          );
-                        } else {
-                          cart.addItem(details!);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Product is added"),
-                            ),
-                          );
-                        }
-                      },
-                      child: Text(
-                        "Add to cart",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
+                    if (!cart.isProductExist(details!))
+                      ElevatedButton(
+                        onPressed: () {
+                          if (cart.isProductExist(details!) == true) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("This product is already exist"),
+                              ),
+                            );
+                          } else {
+                            cart.addItem(details!);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Product is added"),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          "Add to cart",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      )
+                    else
+                      Text("Product is already in cart"),
                   ],
                 ),
               ),

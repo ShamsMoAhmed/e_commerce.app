@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:e_commerce_app/cart_screen.dart';
 import 'package:e_commerce_app/models/cart_provider.dart';
 import 'package:e_commerce_app/product_screen.dart';
-import 'package:e_commerce_app/registration_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +25,7 @@ void main() async {
               if (snapshot.hasData) {
                 return const ProductScreen();
               } else {
-                return loginScreen();
+                return LoginScreen();
               }
             })),
       ),

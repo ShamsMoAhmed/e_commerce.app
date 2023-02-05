@@ -29,12 +29,16 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
     var isValid = formKey.currentState!.validate();
     if (isValid == false) return;
 
-    var prod = AddProduct(
-        title: titleController.text,
-        price: num.parse(priceController.text),
-        desc: descController.text,
-        stock: 300,
-        brand: "Apple");
+    var prod = Product(
+      id: 0,
+      productTitle: titleController.text,
+      price: num.parse(priceController.text),
+      description: descController.text,
+      stock: 300,
+      brand: "Apple",
+      imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuJjyo2eGSU4n_wuaLhHWjM5CUjw9ZUvhA9DgaqxnO&s",
+    );
 
     try {
       var isAdded = await productService.addProduct(prod);

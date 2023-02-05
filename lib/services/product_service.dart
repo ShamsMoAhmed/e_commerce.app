@@ -18,14 +18,7 @@ class ProductServices {
     for (var item in data["products"]) {
       // ["products"]: this word is added as in the new link of data there is ["products"] then the data is shown so i must write this word before.
       // ignore: curly_braces_in_flow_control_structures
-      var pro = Product(
-        // mapping inside list : key: ["value"] .
-        id: item["id"],
-        imageUrl: item["thumbnail"],
-        price: item["price"],
-        productTitle: item["title"],
-        description: item["description"],
-      );
+      var pro = Product.fromJson(item);
       products.add(pro);
       // product: the empty list that I made before .
     }
@@ -38,31 +31,15 @@ class ProductServices {
 
     var res = await http.get(url);
     var data = jsonDecode(res.body);
-    return Product(
-      imageUrl: data["thumbnail"],
-      price: data["price"],
-      productTitle: data["title"],
-      id: data["id"],
-      description: data["description"],
-    );
+    return Product.fromJson(data);
   }
 
-  Future<bool> addProduct(AddProduct newProduct) async {
+  Future<bool> addProduct(Product newProduct) async {
     var url = Uri.parse("https://dummyjson.com/products/add");
-    var data = {
-      "title": newProduct.title,
-      "price": newProduct.price,
-      "description": newProduct.desc,
-      "category": "smartphones",
-      "stock": newProduct.stock,
-      "brand": newProduct.brand,
-      "thumbnail":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuJjyo2eGSU4n_wuaLhHWjM5CUjw9ZUvhA9DgaqxnO&s",
-    };
-
+    var data = newProduct.toJson();
     var encodedData = jsonEncode(data);
     var response = await http.post(url, body: encodedData);
     print(response.statusCode);
-    return response.statusCode== 200;
+    return response.statusCode == 200;
   }
 }
