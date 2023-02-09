@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:e_commerce_app/services/product_service.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,11 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
   var titleController = TextEditingController();
   var priceController = TextEditingController();
   var descController = TextEditingController();
+  var brandController = TextEditingController();
+
+  String? brand;
+  String? color;
+  bool isFree = false;
 
   bool isLoading = false;
   //To control the form and can modify on it:    this is like controller.
@@ -35,7 +40,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
       price: num.parse(priceController.text),
       description: descController.text,
       stock: 300,
-      brand: "Apple",
+      brand: brandController.text,
       imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuJjyo2eGSU4n_wuaLhHWjM5CUjw9ZUvhA9DgaqxnO&s",
     );
@@ -79,6 +84,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
     titleController.dispose();
     priceController.dispose();
     descController.dispose();
+    brandController.dispose();
     super.dispose();
   }
 
@@ -164,6 +170,80 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
+                    ),
+                    DropdownButtonFormField<String>(
+                      
+                        validator: (value) {
+                          if (value == null) {
+                            return "Please choose a brand.";
+                          } else {
+                            return null;
+                          }
+                        },
+                        hint: Text("Select a brand"),
+                        value: brand,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        items: [
+                          DropdownMenuItem(
+                            
+                            child: Text("Apple"),
+                            value: "apple",
+                          ),
+                          DropdownMenuItem<String>(
+                            child: Text("Huawei"),
+                            value: "huawei",
+                          ),
+                          DropdownMenuItem<String>(
+                            child: Text("Nokia"),
+                            value: "nokia",
+                          ),
+                          DropdownMenuItem<String>(
+                            child: Text("Nokia"),
+                            value: "nokia",
+                          )
+                        ],
+                        onChanged: (val) {
+                          setState(() {
+                            brand = val;
+                          });
+                        }),
+                    Row(
+                      children: [
+                        Radio<String?>(
+                            value: "white",
+                            groupValue: color,
+                            onChanged: (value) {
+                              setState(() {
+                                color = value;
+                              });
+                            }),
+                        Text("White"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String?>(
+                            value: "black",
+                            groupValue: color,
+                            onChanged: (value) {
+                              setState(() {
+                                color = value;
+                              });
+                            }),
+                        Text("Black"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: isFree,
+                            onChanged: (val) {
+                              setState(() {
+                                isFree = val!;
+                              });
+                            }),
+                        Text("Price is free")
+                      ],
                     ),
                     SizedBox(
                       height: 15,
